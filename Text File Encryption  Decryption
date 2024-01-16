@@ -1,0 +1,44 @@
+def caesar_cipher(text, key, mode):
+    result = ""
+
+    for char in text:
+        if char.isalpha():
+            shift = key % 26
+            if char.islower():
+                result += chr((ord(char) - ord('a') + shift) % 26 + ord('a'))
+            else:
+                result += chr((ord(char) - ord('A') + shift) % 26 + ord('A'))
+        else:
+            result += char
+
+    return result
+
+def encrypt_file(file_path, key):
+    with open(file_path, 'r') as file:
+        plaintext = file.read()
+
+    encrypted_text = caesar_cipher(plaintext, key, 'encrypt')
+
+    with open('encrypted_file.txt', 'w') as encrypted_file:
+        encrypted_file.write(encrypted_text)
+
+    print(f"File encrypted successfully with key {key}.")
+
+def decrypt_file(file_path, key):
+    with open(file_path, 'r') as encrypted_file:
+        encrypted_text = encrypted_file.read()
+
+    decrypted_text = caesar_cipher(encrypted_text, key, 'decrypt')
+
+    with open('decrypted_file.txt', 'w') as decrypted_file:
+        decrypted_file.write(decrypted_text)
+
+    print(f"File decrypted successfully with key {key}.")
+
+# Example usage:
+file_path = 'sample_text.txt'  # Replace with your file path
+encryption_key = int(input("Enter the key for encryption: "))
+encrypt_file(file_path, encryption_key)
+
+decryption_key = int(input("Enter the key for decryption: "))
+decrypt_file('encrypted_file.txt', decryption_key)
