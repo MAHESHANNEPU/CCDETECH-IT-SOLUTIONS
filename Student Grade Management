@@ -1,0 +1,58 @@
+class Student:
+    def _init_(self, name, roll_number, marks):
+        self.name = name
+        self.roll_number = roll_number
+        self.marks = marks
+
+    def calculate_percentage(self):
+        total_marks = sum(self.marks.values())
+        return (total_marks / len(self.marks))
+
+    def calculate_grade(self, percentage):
+        if percentage >= 90:
+            return 'A'
+        elif 80 <= percentage < 90:
+            return 'B'
+        elif 70 <= percentage < 80:
+            return 'C'
+        elif 60 <= percentage < 70:
+            return 'D'
+        else:
+            return 'F'
+
+def add_student_record(students, name, roll_number, marks):
+    student = Student(name, roll_number, marks)
+    students[roll_number] = student
+    print(f"Student {name} with Roll Number {roll_number} added successfully.")
+
+def update_student_record(students, roll_number, updated_marks):
+    if roll_number in students:
+        student = students[roll_number]
+        student.marks.update(updated_marks)
+        print(f"Student with Roll Number {roll_number} updated successfully.")
+    else:
+        print(f"Student with Roll Number {roll_number} not found.")
+
+def delete_student_record(students, roll_number):
+    if roll_number in students:
+        del students[roll_number]
+        print(f"Student with Roll Number {roll_number} deleted successfully.")
+    else:
+        print(f"Student with Roll Number {roll_number} not found.")
+
+def main():
+    students = {}
+
+    add_student_record(students, "John Doe", "101", {"Math": 90, "English": 85, "Science": 92})
+    add_student_record(students, "Jane Smith", "102", {"Math": 78, "English": 88, "Science": 80})
+
+    for roll, student in students.items():
+        percentage = student.calculate_percentage()
+        grade = student.calculate_grade(percentage)
+        print(f"Roll Number: {roll}, Name: {student.name}, Percentage: {percentage:.2f}%, Grade: {grade}")
+
+    update_student_record(students, "101", {"Math": 95})
+    delete_student_record(students, "102")
+
+if _name_ == "_main_":
+    main()
